@@ -17,7 +17,6 @@ router.get("/ClaimsService/getAll"){
     response.status(.OK)
     response.headers["Content-Type"] = "application/json"
     response.send(jsonStr)
-    response.send(jsonStr)
     next()
 }
 router.post("/ClaimsService/add"){
