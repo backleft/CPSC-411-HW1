@@ -21,12 +21,6 @@ struct Claims : Codable {
         claim_date = date_
         claim_isSolved = isSolved_
     }
-    init(title_ : String?, date_: String?, isSolved_ : String?){
-        claim_id = UUID().uuidString
-        claim_title = title_
-        claim_date = date_
-        claim_isSolved = isSolved_;
-    }
 }
 
 class ClaimsDB {
