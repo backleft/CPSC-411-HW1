@@ -2,7 +2,7 @@ import Kitura
 import Cocoa
 
 let router = Router()
-let dbObj = Database.getInstance()
+
 router.all("/ClaimsService/add",middleware: BodyParser())
 router.all("/"){
     request, response, next in
@@ -33,19 +33,6 @@ router.post("/ClaimsService/add"){
     response.send("Claim has been sent VIA postMethod")
     next()
 }
-router.get("/ClaimsService/add"){
-    request,response,next in
-    let isSolved = request.queryParameters["isSolved"]
-    let date = request.queryParameters["date"]
-    if let title =  request.queryParameters["title"]{
-        let pObj = Claims(title_: title, date_: date, isSolved_: isSolved)
-        ClaimsDB().addClaim(pObj: pObj)
-        response.send("The Claim Record inserted!")
-    }
-    else{
-        
-    }
-    next()
-}
+
 Kitura.addHTTPServer(onPort: 8080, with: router)
 Kitura.run()
