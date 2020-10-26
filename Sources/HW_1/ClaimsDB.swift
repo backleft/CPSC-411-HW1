@@ -15,7 +15,7 @@ struct Claims : Codable {
     var claim_date : String?
     var claim_isSolved : String?
     
-    init (id : String, title_ : String?, date_ : String?, isSolved_ : String?){
+    init (id : String?, title_ : String?, date_ : String?, isSolved_ : String?){
         claim_id = id
         claim_title = title_
         claim_date = date_
@@ -49,7 +49,7 @@ class ClaimsDB {
         {
             while (sqlite3_step(resultSET)==SQLITE_ROW) {
                 let id_val = sqlite3_column_int(resultSET, 0)
-                let id = String(id_val)
+                let id = String(cString: id_val!)
                 let title_val =  sqlite3_column_text(resultSET, 1)
                 let title = String(cString: title_val!)
                 let date_val = sqlite3_column_text(resultSET, 2)
