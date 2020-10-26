@@ -2,6 +2,7 @@ import Kitura
 import Cocoa
 
 let router = Router()
+let dbObj = Database.getInstance()
 
 router.all("/ClaimsService/add",middleware: BodyParser())
 router.all("/"){
@@ -25,8 +26,12 @@ router.post("/ClaimsService/add"){
     let jObj = body?.asJSON
     if let jDict = jObj as? [String:String]{
         if let title = jDict["title"], let date = jDict["date"],let isSolved = jDict["isSolved"]{
-            let uuid = UUID().uuidString
-            let cObj = Claims(id: uuid, title_: title, date_: date, isSolved_: isSolved)
+            //let uuid = UUID().uuidString
+            //let cObj = Claims(id: uuid,title: title, date: date, isSolved: isSolved)
+            let cObj = Claims(title: title
+Kitura.addHTTPServer(onPort: 8020, with: router)
+Kitura.run()
+, date: date, isSolved: isSolved)
             ClaimsDB().addClaim(pObj: cObj)
         }
     }
@@ -34,5 +39,20 @@ router.post("/ClaimsService/add"){
     next()
 }
 
-Kitura.addHTTPServer(onPort: 8080, with: router)
+router.get("/ClaimsService/add"){
+    request,response,next in
+    let isSolved = request.queryParameters["isSolved"]
+    let date = request.queryParameters["date"]
+    if let title =  request.queryParameters["title"]{
+        let pObj = Claims(title: title, date: date, isSolved: isSolved)
+        ClaimsDB().addClaim(pObj: pObj)
+        response.send("The Claim Record inserted!")
+    }
+    else{
+        
+    }
+    next()
+}
+
+Kitura.addHTTPServer(onPort: 8020, with: router)
 Kitura.run()
