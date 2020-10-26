@@ -25,7 +25,8 @@ router.post("/ClaimsService/add"){
     let jObj = body?.asJSON
     if let jDict = jObj as? [String:String]{
         if let title = jDict["title"], let date = jDict["date"],let isSolved = jDict["isSolved"]{
-            let cObj = Claims(title_: title, date_: date, isSolved_: isSolved)
+            let uuid = UUID().uuidString
+            let cObj = Claims(id: uuid, title_: title, date_: date, isSolved_: isSolved)
             ClaimsDB().addClaim(pObj: cObj)
         }
     }
